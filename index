@@ -1,0 +1,2534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Pop Portal</title>
+    <!-- Include Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Include Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <!-- Include Lexend Deca Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pink-primary: #ff69b4;
+            --pink-secondary: #ff1493;
+            --pink-light: #ffb6c1;
+            --pink-dark: #db7093;
+            --peach-light: #ffdab9;
+            --peach-dark: #ffaa95;
+            --teal-primary: #2dd4bf;
+            --teal-secondary: #0d9488;
+            --teal-light: #99f6e4;
+            --teal-dark: #0f766e;
+        }
+        body {
+            background: linear-gradient(135deg, 
+                #fff0f5 0%,
+                var(--peach-light) 20%,
+                #ffe4e1 40%,
+                var(--pink-light) 60%,
+                var(--peach-dark) 80%,
+                var(--pink-primary) 100%
+            );
+            background-attachment: fixed;
+            color: #333;
+            min-height: 100vh;
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%23ff69b4'%3E%3Cpath d='M12 2a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z'/%3E%3Cpath d='M19 10v2a7 7 0 0 1-14 0v-2h-2v2a9 9 0 0 0 8 8.94V22h2v-1.06A9 9 0 0 0 21 12v-2h-2z'/%3E%3C/svg%3E") 12 12, auto;
+            position: relative;
+        }
+        .max-w-4xl {
+            position: relative;
+            z-index: 2;
+        }
+        .bubble-text {
+            font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif;
+            text-shadow: 
+                2px 2px 0 rgba(255, 255, 255, 0.8),
+                4px 4px 0 rgba(255, 255, 255, 0.6),
+                6px 6px 0 rgba(255, 255, 255, 0.4),
+                8px 8px 0 rgba(255, 255, 255, 0.2),
+                10px 10px 0 rgba(255, 255, 255, 0.1);
+            color: white;
+            letter-spacing: 3px;
+            transform: perspective(500px) rotateX(10deg);
+            display: inline-block;
+            padding: 1.5rem 3rem;
+            border-radius: 50px;
+            background: linear-gradient(135deg, 
+                rgba(255, 105, 180, 0.9),
+                rgba(255, 20, 147, 0.9)
+            );
+            box-shadow: 
+                0 15px 30px rgba(255, 105, 180, 0.4),
+                0 0 0 10px rgba(255, 255, 255, 0.3),
+                0 0 0 15px rgba(255, 105, 180, 0.2),
+                0 0 0 20px rgba(255, 255, 255, 0.1);
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+            font-size: 4rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            -webkit-text-stroke: 1px rgba(255, 105, 180, 0.3);
+            z-index: 3;
+            white-space: nowrap;
+        }
+        .bubble-text::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+            border-radius: 50px;
+            z-index: 1;
+        }
+        .bubble-text::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), transparent 70%);
+            border-radius: 50px;
+            z-index: 2;
+        }
+        .technical-definition {
+            background: rgba(255, 182, 193, 0.1);
+            color: #333;
+            border: 1px solid var(--pink-primary);
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(255, 105, 180, 0.1);
+        }
+        .pop-explanation {
+            background: linear-gradient(135deg,
+                var(--pink-dark),
+                var(--pink-secondary)
+            );
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .pop-explanation p {
+            color: white;
+            text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .pop-explanation .font-semibold {
+            color: white;
+            opacity: 0.9;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+        }
+        .pop-explanation:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 6px 12px rgba(255, 105, 180, 0.3),
+                0 12px 24px rgba(255, 105, 180, 0.15);
+        }
+        .pop-explanation span {
+            font-weight: bold;
+            color: var(--pink-secondary);
+            display: block;
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px;
+        }
+        .pop-explanation span::before {
+            content: '🎵';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .pop-explanation span::after {
+            content: '✨';
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            animation: sparkle 2s ease-in-out infinite;
+        }
+        @keyframes sparkle {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.7; }
+            50% { transform: scale(1.2) rotate(10deg); opacity: 1; }
+        }
+        @keyframes float {
+            0%, 100% { 
+                transform: perspective(500px) rotateX(10deg) translateY(0) scale(1);
+            }
+            50% { 
+                transform: perspective(500px) rotateX(10deg) translateY(-15px) scale(1.02);
+            }
+        }
+
+        /* Sparkle styles for launch page */
+        .launch-sparkle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .launch-sparkle {
+            position: absolute;
+            mix-blend-mode: screen;
+            font-size: var(--size);
+            opacity: 0.8;
+            transform-origin: center;
+            animation: launchSparkle var(--duration) ease-in-out infinite;
+            animation-delay: var(--delay);
+        }
+
+        @keyframes launchSparkle {
+            0% {
+                transform: translate(var(--startX), var(--startY)) scale(0);
+                opacity: 0;
+            }
+            25% {
+                transform: translate(var(--midX), var(--midY)) scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translate(var(--endX), var(--endY)) scale(1.2);
+                opacity: 1;
+            }
+            75% {
+                transform: translate(var(--finalX), var(--finalY)) scale(1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate(var(--startX), var(--startY)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Custom Microphone Cursor */
+        .nav-button, button, a {
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%23ff1493'%3E%3Cpath d='M12 2a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z'/%3E%3Cpath d='M19 10v2a7 7 0 0 1-14 0v-2h-2v2a9 9 0 0 0 8 8.94V22h2v-1.06A9 9 0 0 0 21 12v-2h-2z'/%3E%3C/svg%3E") 12 12, pointer;
+        }
+
+        /* Pop Girl AI Assistant Styles */
+        .pop-girl-chat {
+            font-family: 'Lexend Deca', sans-serif;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(255, 105, 180, 0.2);
+            border: 3px solid var(--pink-primary);
+            z-index: 1000;
+            overflow: hidden;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .pop-girl-chat:hover {
+            transform: translateY(-5px);
+        }
+
+        .chat-header {
+            background: linear-gradient(45deg, 
+                var(--pink-primary),
+                var(--peach-dark),
+                var(--pink-secondary)
+            );
+            color: white;
+            padding: 15px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            position: relative;
+        }
+
+        .chat-header .emoji-icon {
+            font-size: 1.8rem;
+            line-height: 1;
+        }
+
+        .chat-header h3 {
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        .chat-close {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .chat-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .chat-header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid white;
+            object-fit: cover;
+        }
+
+        .chat-header h3 {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .chat-messages {
+            height: 300px;
+            overflow-y: auto;
+            padding: 15px;
+            background: #fff5f7;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            max-width: 80%;
+        }
+
+        .message.user {
+            margin-left: auto;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 15px 15px 0 15px;
+            border: 1px solid var(--pink-light);
+        }
+
+        .message.assistant {
+            background: linear-gradient(45deg, 
+                var(--pink-light),
+                var(--peach-light),
+                white
+            );
+            padding: 10px 15px;
+            border-radius: 15px 15px 15px 0;
+            border: 1px solid var(--pink-light);
+        }
+
+        .chat-input {
+            padding: 15px;
+            background: white;
+            border-top: 1px solid var(--pink-light);
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--pink-light);
+            border-radius: 20px;
+            outline: none;
+        }
+
+        .chat-input button {
+            background: var(--pink-primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input button:hover {
+            background: var(--pink-secondary);
+            transform: scale(1.1);
+        }
+
+        .chat-toggle {
+            font-family: 'Lexend Deca', sans-serif;
+            font-weight: 600;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, 
+                rgba(255, 105, 180, 0.9) 0%,
+                rgba(255, 170, 149, 0.9) 50%,
+                rgba(255, 20, 147, 0.9) 100%
+            );
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 
+                0 15px 30px rgba(255, 105, 180, 0.4),
+                0 0 0 10px rgba(255, 255, 255, 0.3),
+                0 0 0 15px rgba(255, 105, 180, 0.2),
+                0 0 0 20px rgba(255, 255, 255, 0.1);
+            z-index: 1001;
+            padding: 15px;
+            text-align: center;
+            font-size: 1rem;
+            color: white;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 
+                2px 2px 0 rgba(255, 255, 255, 0.3),
+                4px 4px 0 rgba(255, 255, 255, 0.2);
+            transform: perspective(500px) rotateX(10deg);
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.5s ease;
+        }
+
+        .chat-toggle::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.1) 45%,
+                rgba(255, 255, 255, 0.5) 50%,
+                rgba(255, 255, 255, 0.1) 55%,
+                transparent 100%
+            );
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+            pointer-events: none;
+        }
+
+        .chat-toggle::after {
+            content: '✨';
+            position: absolute;
+            font-size: 1.2rem;
+            animation: sparkle 2s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes shimmer {
+            0% {
+                top: -50%;
+                left: -50%;
+            }
+            100% {
+                top: 150%;
+                left: 150%;
+            }
+        }
+
+        @keyframes sparkle {
+            0%, 100% {
+                transform: translate(-30px, -30px) scale(0);
+                opacity: 0;
+            }
+            25% {
+                transform: translate(30px, -20px) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(20px, 30px) scale(1);
+                opacity: 1;
+            }
+            75% {
+                transform: translate(-20px, 20px) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .chat-toggle.visible {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .chat-toggle:hover {
+            transform: perspective(500px) rotateX(10deg) scale(1.05);
+            animation: none;
+        }
+
+        /* Add multiple sparkle elements */
+        .chat-toggle .sparkle {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .chat-toggle .sparkle:nth-child(1) {
+            font-size: 1.4rem;
+            animation: sparkle1 2.5s infinite;
+            animation-delay: 0s;
+            top: 10%;
+            left: 10%;
+        }
+
+        .chat-toggle .sparkle:nth-child(2) {
+            font-size: 1rem;
+            animation: sparkle2 2s infinite;
+            animation-delay: 0.4s;
+            top: 20%;
+            right: 15%;
+        }
+
+        .chat-toggle .sparkle:nth-child(3) {
+            font-size: 1.2rem;
+            animation: sparkle3 3s infinite;
+            animation-delay: 0.8s;
+            bottom: 15%;
+            left: 20%;
+        }
+
+        .chat-toggle .sparkle:nth-child(4) {
+            font-size: 0.8rem;
+            animation: sparkle1 2.2s infinite;
+            animation-delay: 1.2s;
+            bottom: 25%;
+            right: 25%;
+        }
+
+        .chat-toggle .sparkle:nth-child(5) {
+            font-size: 1.1rem;
+            animation: sparkle2 2.8s infinite;
+            animation-delay: 1.6s;
+            top: 40%;
+            left: 15%;
+        }
+
+        .chat-toggle .sparkle:nth-child(6) {
+            font-size: 0.9rem;
+            animation: sparkle3 2.4s infinite;
+            animation-delay: 2s;
+            bottom: 30%;
+            left: 30%;
+        }
+
+        @keyframes sparkle1 {
+            0%, 100% {
+                transform: translate(0, 0) scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            25% {
+                transform: translate(15px, -15px) scale(1) rotate(90deg);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translate(30px, 0) scale(0.8) rotate(180deg);
+                opacity: 1;
+            }
+            75% {
+                transform: translate(15px, 15px) scale(1.2) rotate(270deg);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes sparkle2 {
+            0%, 100% {
+                transform: translate(0, 0) scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            25% {
+                transform: translate(-20px, -10px) scale(1.2) rotate(-90deg);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(-15px, 15px) scale(0.9) rotate(-180deg);
+                opacity: 0.7;
+            }
+            75% {
+                transform: translate(10px, 20px) scale(1.1) rotate(-270deg);
+                opacity: 0.9;
+            }
+        }
+
+        @keyframes sparkle3 {
+            0%, 100% {
+                transform: translate(0, 0) scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            25% {
+                transform: translate(25px, 10px) scale(1.1) rotate(120deg);
+                opacity: 0.9;
+            }
+            50% {
+                transform: translate(-10px, 25px) scale(1) rotate(240deg);
+                opacity: 1;
+            }
+            75% {
+                transform: translate(-25px, -10px) scale(0.8) rotate(360deg);
+                opacity: 0.7;
+            }
+        }
+
+        /* Example Questions Styles */
+        .example-question {
+            color: var(--pink-primary);
+            padding: 5px 10px;
+            margin: 5px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            display: inline-block;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .example-question:hover {
+            background: white;
+            transform: translateX(5px);
+        }
+
+        .message.assistant {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #nav-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 2rem;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding: 10px 0;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        #nav-buttons::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, 
+                rgba(255, 105, 180, 0.9),
+                rgba(255, 20, 147, 0.9)
+            );
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            margin: 0;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 
+                0 5px 15px rgba(255, 105, 180, 0.3),
+                0 0 0 5px rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+            flex-shrink: 0;
+            transform: scale(1);
+            animation: none;
+        }
+
+        .nav-button:active {
+            animation: bubble-pop 0.3s ease-out;
+        }
+
+        @keyframes bubble-pop {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.2),
+                rgba(255, 255, 255, 0)
+            );
+            border-radius: 50px;
+            z-index: 1;
+        }
+
+        .nav-button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), transparent 70%);
+            border-radius: 50px;
+            z-index: 2;
+        }
+
+        .nav-button:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 8px 20px rgba(255, 105, 180, 0.4),
+                0 0 0 5px rgba(255, 255, 255, 0.2);
+        }
+
+        .subtitle {
+            font-family: 'Arial Rounded MT Bold', 'Arial Bold', Arial, sans-serif;
+            font-size: 2.75rem;
+            color: var(--pink-secondary);
+            text-shadow: 
+                2px 2px 0 rgba(255, 255, 255, 0.8),
+                4px 4px 0 rgba(255, 255, 255, 0.6);
+            letter-spacing: 2px;
+            transform: rotate(-3deg);
+            display: inline-block;
+            padding: 0.5rem 2rem;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.9),
+                rgba(255, 255, 255, 0.7)
+            );
+            border-radius: 30px;
+            box-shadow: 
+                0 5px 15px rgba(255, 105, 180, 0.2),
+                0 0 0 5px rgba(255, 255, 255, 0.3);
+            position: relative;
+            margin: 1rem 0;
+            font-weight: 800;
+            z-index: 3; /* Ensure subtitle is above floating text */
+        }
+
+        .subtitle::before {
+            content: '✨';
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-15deg);
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        .subtitle::after {
+            content: '✨';
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%) rotate(15deg);
+            animation: sparkle 2s ease-in-out infinite;
+            animation-delay: 1s;
+        }
+
+        .landing-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, 
+                #fff0f5 0%,
+                var(--peach-light) 20%,
+                #ffe4e1 40%,
+                var(--pink-light) 60%,
+                var(--peach-dark) 80%,
+                var(--pink-primary) 100%
+            );
+            z-index: 1000;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .landing-page.fade-out {
+            opacity: 0;
+            transform: scale(1.2);
+        }
+
+        .main-content {
+            display: none;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .main-content.fade-in {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .landing-header {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 280px;
+            width: 1000px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 3rem;
+            background: linear-gradient(135deg, 
+                rgba(255, 182, 193, 0.95),
+                rgba(255, 105, 180, 0.95)
+            );
+            border-radius: 50px;
+            box-shadow: 
+                0 20px 40px rgba(255, 105, 180, 0.3),
+                0 0 0 10px rgba(255, 255, 255, 0.2),
+                0 0 0 15px rgba(255, 105, 180, 0.1);
+            margin: auto;
+            z-index: 2;
+        }
+
+        .landing-header::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            right: -15px;
+            bottom: -15px;
+            background: rgba(255, 105, 180, 0.1);
+            border-radius: 60px 60px 60px 60px / 60px 60px 60px 60px;
+            filter: blur(20px);
+            z-index: -1;
+        }
+
+        .landing-header::after {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.2),
+                rgba(255, 255, 255, 0.1)
+            );
+            border-radius: 55px 55px 55px 55px / 55px 55px 55px 55px;
+            z-index: -1;
+        }
+
+        .landing-header h1 {
+            margin-bottom: 1rem;
+        }
+
+        .typing-subtitle {
+            font-size: 1.5rem;
+            color: white;
+            margin: 0.5rem 0 1rem;
+            font-weight: 600;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            text-shadow: 
+                2px 2px 0 rgba(255, 105, 180, 0.3),
+                4px 4px 0 rgba(255, 105, 180, 0.2);
+            letter-spacing: 0.5px;
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 3px solid white;
+            width: 0;
+            min-width: 0;
+            max-width: 800px;
+            animation: 
+                typing 8s steps(50) infinite,
+                blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            0%, 100% { 
+                width: 0;
+            }
+            25%, 65% { 
+                width: 100%;
+            }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: white }
+        }
+
+        .typing-subtitle::after {
+            display: none;
+        }
+
+        .cycling-term {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 180px;
+            height: 80px;
+            text-align: center;
+            color: white;
+            font-weight: 800;
+            position: relative;
+            -webkit-text-stroke: 3px white;
+            text-stroke: 3px white;
+            letter-spacing: 3px;
+            font-size: var(--dynamic-font-size, 3.6rem);
+            padding: 0.45rem;
+            vertical-align: middle;
+            margin: 0 0.45rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            flex-shrink: 0;
+            transition: font-size 0.3s ease;
+        }
+
+        .cycling-term::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, white, transparent);
+            animation: term-underline 2s ease-in-out infinite;
+        }
+
+        @keyframes term-underline {
+            0%, 100% {
+                transform: scaleX(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scaleX(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes float-around {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate(100px, -50px) rotate(5deg);
+                opacity: 0;
+            }
+        }
+
+        .subject-bubbles {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 1.5rem;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .subject-bubble {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.9),
+                rgba(255, 255, 255, 0.7)
+            );
+            color: var(--pink-secondary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 
+                0 5px 15px rgba(255, 105, 180, 0.2),
+                0 0 0 3px rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .subject-bubble:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 
+                0 8px 20px rgba(255, 105, 180, 0.3),
+                0 0 0 3px rgba(255, 255, 255, 0.4);
+        }
+
+        .subject-bubble:active {
+            transform: scale(0.95);
+        }
+
+        .subject-bubble::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.2),
+                rgba(255, 255, 255, 0)
+            );
+            border-radius: 25px;
+            z-index: 1;
+        }
+
+        .subject-bubble::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), transparent 70%);
+            border-radius: 25px;
+            z-index: 2;
+        }
+
+        /* Add staggered animation delays for each bubble */
+        .subject-bubble:nth-child(1) { animation-delay: 0s; }
+        .subject-bubble:nth-child(2) { animation-delay: 0.2s; }
+        .subject-bubble:nth-child(3) { animation-delay: 0.4s; }
+        .subject-bubble:nth-child(4) { animation-delay: 0.6s; }
+        .subject-bubble:nth-child(5) { animation-delay: 0.8s; }
+        .subject-bubble:nth-child(6) { animation-delay: 1s; }
+        .subject-bubble:nth-child(7) { animation-delay: 1.2s; }
+        .subject-bubble:nth-child(8) { animation-delay: 1.4s; }
+        .subject-bubble:nth-child(9) { animation-delay: 1.6s; }
+        .subject-bubble:nth-child(10) { animation-delay: 1.8s; }
+        .subject-bubble:nth-child(11) { animation-delay: 2s; }
+        .subject-bubble:nth-child(12) { animation-delay: 2.2s; }
+        .subject-bubble:nth-child(13) { animation-delay: 2.4s; }
+        .subject-bubble:nth-child(14) { animation-delay: 2.6s; }
+        .subject-bubble:nth-child(15) { animation-delay: 2.8s; }
+        .subject-bubble:nth-child(16) { animation-delay: 3s; }
+        .subject-bubble:nth-child(17) { animation-delay: 3.2s; }
+        .subject-bubble:nth-child(18) { animation-delay: 3.4s; }
+
+        .chat-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .chat-container.visible {
+            transform: translateY(0);
+        }
+
+        .chat-header {
+            background: linear-gradient(45deg, 
+                var(--pink-primary),
+                var(--peach-dark),
+                var(--pink-secondary)
+            );
+            color: white;
+            padding: 15px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            position: relative;
+        }
+
+        .chat-header .emoji-icon {
+            font-size: 1.8rem;
+            line-height: 1;
+        }
+
+        .chat-header h3 {
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        .chat-close {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .chat-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .chat-header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid white;
+            object-fit: cover;
+        }
+
+        .chat-header h3 {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background: #f0f0f0;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            max-width: 80%;
+            position: relative;
+            padding: 10px 15px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .message.user {
+            background: #007AFF;
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.assistant {
+            background: white;
+            color: black;
+            margin-right: auto;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-input-container {
+            padding: 10px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            margin-right: 10px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .chat-input:focus {
+            border-color: #007AFF;
+        }
+
+        .send-button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .send-button:hover {
+            background: #0056b3;
+        }
+
+        .example-question {
+            background: #e9ecef;
+            color: #007AFF;
+            padding: 8px 12px;
+            margin: 5px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 15px;
+            display: inline-block;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .example-question:hover {
+            background: #dee2e6;
+            transform: translateX(3px);
+        }
+
+        .return-to-launch {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, 
+                var(--pink-primary),
+                var(--pink-secondary)
+            );
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-family: 'Lexend Deca', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 
+                0 4px 15px rgba(255, 105, 180, 0.3),
+                0 0 0 2px rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        .return-to-launch.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .return-to-launch:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 6px 20px rgba(255, 105, 180, 0.4),
+                0 0 0 3px rgba(255, 255, 255, 0.4);
+        }
+
+        .return-to-launch:active {
+            transform: translateY(1px);
+        }
+
+        .sparkle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 10;  /* Lower z-index to not interfere with interactions */
+        }
+
+        .page-sparkle {
+            position: absolute;
+            opacity: 0;
+            font-size: var(--size);
+            animation: pageSparkle var(--duration) ease-in-out infinite;
+            animation-delay: var(--delay);
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: 
+                0 0 5px var(--pink-light),
+                0 0 10px var(--pink-primary),
+                0 0 15px var(--pink-secondary);
+            mix-blend-mode: screen;  /* Better blending with background */
+        }
+
+        @keyframes pageSparkle {
+            0%, 100% {
+                opacity: 0;
+                transform: translate(var(--startX), var(--startY)) scale(0) rotate(0deg);
+            }
+            25% {
+                opacity: 1;
+                transform: translate(var(--midX), var(--midY)) scale(1) rotate(180deg);
+            }
+            50% {
+                opacity: 0.8;
+                transform: translate(var(--endX), var(--endY)) scale(0.8) rotate(360deg);
+            }
+            75% {
+                opacity: 0.2;
+                transform: translate(var(--finalX), var(--finalY)) scale(0.3) rotate(540deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="launch-sparkle-container" id="launchSparkleContainer"></div>
+    <div class="landing-page" id="landingPage">
+        <div class="landing-header" onclick="expandSite()">
+            <h1 class="bubble-text">Explain in <span class="cycling-term">Pop</span> Terms</h1>
+            <div class="typing-subtitle">Decrypt Your Way: Choose Your Own Crypto Learning Adventure</div>
+            <div class="subject-bubbles">
+                <div class="subject-bubble" onclick="event.stopPropagation(); expandSite()">🎵 Pop</div>
+                <div class="subject-bubble" onclick="event.stopPropagation(); setSubject('sports')">⚽ Sports</div>
+                <div class="subject-bubble" onclick="event.stopPropagation(); setSubject('movies')">🎬 Films</div>
+                <div class="subject-bubble" onclick="event.stopPropagation(); setSubject('gaming')">🎮 Games</div>
+                <div class="subject-bubble" onclick="event.stopPropagation(); setSubject('animals')">🐾 Pets</div>
+                <div class="subject-bubble" onclick="event.stopPropagation(); setSubject('food')">🍕 Food</div>
+                <div class="subject-bubble" onclick="event.stopPropagation(); setSubject('tech')">💻 Tech</div>
+                <div class="subject-bubble" onclick="event.stopPropagation(); setSubject('fashion')">👗 Style</div>
+                <div class="subject-bubble" onclick="event.stopPropagation(); setSubject('travel')">✈️ Travel</div>
+                <div class="subject-bubble" onclick="event.stopPropagation(); setSubject('art')">🎨 Art</div>
+                <div class="subject-bubble" onclick="event.stopPropagation(); setSubject('science')">🔬 Science</div>
+                <div class="subject-bubble" onclick="event.stopPropagation(); setSubject('history')">📜 History</div>
+                <div class="subject-bubble" onclick="event.stopPropagation(); setSubject('business')">💼 Biz</div>
+                <div class="subject-bubble" onclick="event.stopPropagation(); setSubject('health')">💪 Health</div>
+                <div class="subject-bubble" onclick="event.stopPropagation(); setSubject('music')">🎼 Music</div>
+                <div class="subject-bubble" onclick="event.stopPropagation(); setSubject('books')">📚 Books</div>
+                <div class="subject-bubble" onclick="event.stopPropagation(); setSubject('nature')">🌿 Nature</div>
+                <div class="subject-bubble" onclick="event.stopPropagation(); setSubject('space')">🚀 Space</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content" id="mainContent">
+        <div class="max-w-4xl mx-auto p-6 min-h-screen">
+            <header class="text-center mb-10">
+                <h1 class="text-6xl font-bold mb-2">
+                    <span class="bubble-text">Crypto Pop Portal</span>
+                </h1>
+                <p class="subtitle text-2xl mb-6">Where Blockchain Meets the Billboard Charts</p>
+                <div class="w-full max-w-2xl mx-auto bg-gradient-to-r from-pink-300 to-purple-300 p-3 rounded-xl shadow-md">
+                    <div class="flex items-center justify-center">
+                        <div class="mr-4">
+                            <i data-lucide="coins" class="text-white" style="width: 40px; height: 40px;"></i>
+                        </div>
+                        <div class="text-white">
+                            <p class="font-bold text-xl">Your Pop-Inspired Crypto Learning Journey</p>
+                            <p>Dive into the world of cryptocurrency through the lens of pop culture! Our AI-powered platform breaks down complex crypto concepts using familiar pop music references. Start with our structured lessons, then chat with our AI assistant to get personalized explanations in pop terms. Whether you're curious about NFTs, DeFi, or trading strategies, we'll make it as catchy as your favorite song!</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="flex justify-center items-center mb-8" id="nav-buttons">
+                <button class="nav-button" onclick="switchTab('intro')">
+                    Welcome
+                </button>
+                <button class="nav-button" onclick="switchTab('crypto101')">
+                    Crypto 101
+                </button>
+                <button class="nav-button" onclick="switchTab('crypto102')">
+                    Crypto 102
+                </button>
+                <button class="nav-button" onclick="switchTab('crypto103')">
+                    Crypto 103
+                </button>
+                <button class="nav-button" onclick="switchTab('uniswap')">
+                    Uniswap
+                </button>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-8 border-2 border-pink-200">
+                <h2 class="text-2xl font-bold mb-4 text-pink-700" id="section-title">
+                    Welcome to Crypto Pop!
+                </h2>
+                
+                <!-- Intro Section -->
+                <div id="intro" class="tab-content">
+                    <p class="mb-4 text-lg">Welcome to the world where crypto meets pop culture! Just like how artists like Taylor Swift, Ariana Grande, and Billie Eilish have revolutionized music, we're here to transform how you understand cryptocurrency. 🎵✨</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                        <div class="bg-gradient-to-br from-pink-50 to-pink-100 p-6 rounded-xl border-2 border-pink-200 shadow-lg hover:transform hover:scale-105 transition-all duration-300">
+                            <h3 class="font-bold text-xl text-pink-700 mb-4 flex items-center">
+                                <i data-lucide="music" class="mr-2" style="width: 24px; height: 24px;"></i>
+                                Your Pop-Inspired Journey
+                            </h3>
+                            <ul class="space-y-4">
+                                <li class="flex items-start">
+                                    <span class="text-pink-500 mr-2">🎵</span>
+                                    <span>Learn about Bitcoin through Taylor Swift's chart-topping success story</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-pink-500 mr-2">💫</span>
+                                    <span>Understand Ethereum like Beyoncé's game-changing evolution in music</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-pink-500 mr-2">✨</span>
+                                    <span>Explore DeFi platforms as easily as streaming your favorite playlist</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-pink-500 mr-2">🎪</span>
+                                    <span>Master trading like choreographing the perfect pop performance</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gradient-to-br from-pink-50 to-pink-100 p-6 rounded-xl border-2 border-pink-200 shadow-lg hover:transform hover:scale-105 transition-all duration-300">
+                            <h3 class="font-bold text-xl text-pink-700 mb-4 flex items-center">
+                                <i data-lucide="star" class="mr-2" style="width: 24px; height: 24px;"></i>
+                                Why Pop Culture?
+                            </h3>
+                            <div class="space-y-4">
+                                <p>Understanding crypto shouldn't feel like reading a technical manual. By connecting it to the music and artists you love, complex concepts become as catchy as your favorite chorus! 🎤</p>
+                                <div class="mt-4 bg-white p-4 rounded-lg border border-pink-200">
+                                    <h4 class="font-semibold text-pink-700 mb-2">Featured Artists & Concepts:</h4>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="px-3 py-1 bg-pink-100 rounded-full text-sm">Taylor Swift = Bitcoin</span>
+                                        <span class="px-3 py-1 bg-pink-100 rounded-full text-sm">Beyoncé = Ethereum</span>
+                                        <span class="px-3 py-1 bg-pink-100 rounded-full text-sm">Spotify = DeFi</span>
+                                        <span class="px-3 py-1 bg-pink-100 rounded-full text-sm">Charts = Markets</span>
+                                        <span class="px-3 py-1 bg-pink-100 rounded-full text-sm">Streaming = Trading</span>
+                                        <span class="px-3 py-1 bg-pink-100 rounded-full text-sm">Ariana = Smart Contracts</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 bg-white p-6 rounded-xl border-2 border-pink-200 shadow-lg">
+                        <h3 class="font-bold text-xl text-pink-700 mb-4 flex items-center">
+                            <i data-lucide="play-circle" class="mr-2" style="width: 24px; height: 24px;"></i>
+                            Ready to Start?
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="text-center p-4 bg-gradient-to-br from-pink-50 to-pink-100 rounded-lg">
+                                <p class="font-semibold mb-2">1. Choose Your Style</p>
+                                <p class="text-sm">Pick the pop culture references that speak to you</p>
+                            </div>
+                            <div class="text-center p-4 bg-gradient-to-br from-pink-50 to-pink-100 rounded-lg">
+                                <p class="font-semibold mb-2">2. Learn the Basics</p>
+                                <p class="text-sm">Start with Crypto 101 - your first hit single</p>
+                            </div>
+                            <div class="text-center p-4 bg-gradient-to-br from-pink-50 to-pink-100 rounded-lg">
+                                <p class="font-semibold mb-2">3. Build Your Portfolio</p>
+                                <p class="text-sm">Create your own crypto playlist</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Crypto 101 Section -->
+                <div id="crypto101" class="tab-content" style="display: none;">
+                    <div class="mb-6 bg-gradient-to-r from-pink-200 to-purple-200 p-6 rounded-lg border border-pink-300 flex items-center shadow-md">
+                        <div class="mr-4">
+                            <i data-lucide="coins" class="text-pink-500" style="width: 50px; height: 50px;"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-pink-700">Crypto 101: The Basics</h3>
+                            <p>Just like learning the lyrics to your favorite Taylor Swift song, let's start with the fundamental concepts of crypto! 🎵</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-6 bg-gradient-to-r from-pink-50 to-pink-100 p-4 rounded-lg border border-pink-200">
+                        <h3 class="font-bold flex items-center text-pink-700">
+                            <i data-lucide="coins" class="mr-2" style="width: 20px; height: 20px;"></i>
+                            Cryptocurrency & Blockchain: The Dynamic Duo
+                        </h3>
+                        <div class="mt-3 bg-white p-3 rounded-lg border border-pink-200">
+                            <p class="font-semibold text-gray-800">Technical Definitions:</p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li><span class="font-semibold">Cryptocurrency:</span> A digital form of money that uses cryptography for security and operates independently of central banks.</li>
+                                <li><span class="font-semibold">Blockchain:</span> A decentralized, distributed ledger that records all transactions across a network of computers.</li>
+                                <li><span class="font-semibold">Decentralization:</span> The distribution of control away from a central authority to a network of users.</li>
+                            </ul>
+                        </div>
+                        <div class="mt-3 bg-pink-50 p-3 rounded-lg border border-pink-200">
+                            <p class="font-semibold text-pink-700">Now explain it in pop terms:</p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li><span class="font-semibold">Cryptocurrency:</span> Like Taylor Swift going independent - no record label (central bank) needed! Your crypto is your music, and you're in complete control of your hits! 🎵</li>
+                                <li><span class="font-semibold">Blockchain:</span> Like Taylor's loyal Swifties documenting every move she makes, with everyone having a copy of her entire career history - no one can change or deny what happened! 📝</li>
+                                <li><span class="font-semibold">Decentralization:</span> Like when Taylor's fans collectively decide on tour setlists instead of just the management - power to the people! 🙌</li>
+                            </ul>
+                        </div>
+                        <div class="mt-3 bg-white p-3 rounded-lg border border-pink-200">
+                            <p class="font-semibold text-pink-700">Try it yourself:</p>
+                            <div class="space-y-2">
+                                <p class="text-gray-700"><span class="font-semibold">Real Example:</span> Open your phone's calculator and type 1 BTC = $65,000. Now imagine that value is controlled not by a bank, but by millions of people agreeing on its worth - just like how Taylor's songs become hits because fans collectively stream them millions of times!</p>
+                                <p class="text-gray-700"><span class="font-semibold">Quick Exercise:</span> Visit CoinGecko.com and look up Bitcoin's price history for the last year. Notice how the value changes based on collective user activity - just like how streaming numbers affect an artist's chart position! 📈</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6 bg-gradient-to-r from-pink-50 to-pink-100 p-4 rounded-lg border border-pink-200">
+                        <h3 class="font-bold flex items-center text-pink-700">
+                            <i data-lucide="wallet" class="mr-2" style="width: 20px; height: 20px;"></i>
+                            Wallets & Keys: Your Digital Backstage Pass
+                        </h3>
+                        <div class="mt-3 bg-white p-3 rounded-lg border border-pink-200">
+                            <p class="font-semibold text-gray-800">Technical Definitions:</p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li><span class="font-semibold">Wallet:</span> A digital tool used to store, send, and receive cryptocurrencies, with Uniswap being a popular platform for managing and trading tokens.</li>
+                                <li><span class="font-semibold">Public Key:</span> Your shareable address for receiving cryptocurrency on Uniswap and other platforms.</li>
+                                <li><span class="font-semibold">Private Key:</span> Your secret key that gives access to your cryptocurrency and Uniswap trading activities.</li>
+                            </ul>
+                        </div>
+                        <div class="mt-3 bg-pink-50 p-3 rounded-lg border border-pink-200">
+                            <p class="font-semibold text-pink-700">Now explain it in pop terms:</p>
+                            <p class="text-gray-700">Your Uniswap wallet is like your all-access festival pass - it lets you trade, swap, and store your digital assets. The public key is like your festival wristband ID that everyone can see and send tokens to. The private key? That's your secret VIP code that lets you access the exclusive trading areas - never share it, or someone else could take control of your crypto collection!</p>
+                        </div>
+                        <div class="mt-3 bg-white p-3 rounded-lg border border-pink-200">
+                            <p class="font-semibold text-pink-700">Try it yourself:</p>
+                            <div class="space-y-2">
+                                <p class="text-gray-700"><span class="font-semibold">Real Example:</span> Visit app.uniswap.org and connect your first wallet. Your wallet address will look something like "0x123...abc" - this is your public profile for receiving any ERC-20 tokens, just like having a universal username for all crypto festivals!</p>
+                                <p class="text-gray-700"><span class="font-semibold">Quick Exercise:</span> After connecting to Uniswap, try swapping a small amount of ETH for another token. It's like exchanging your festival tokens for different types of VIP passes - but remember to keep your recovery phrase safe and never share it! 🔐</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6 bg-gradient-to-r from-pink-50 to-pink-100 p-4 rounded-lg border border-pink-200">
+                        <h3 class="font-bold flex items-center text-pink-700">
+                            <i data-lucide="cpu" class="mr-2" style="width: 20px; height: 20px;"></i>
+                            Mining & Consensus: The Beat of the Blockchain
+                        </h3>
+                        <div class="mt-3 bg-white p-3 rounded-lg border border-pink-200">
+                            <p class="font-semibold text-gray-800">Technical Definitions:</p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li><span class="font-semibold">Mining:</span> The process of creating new cryptocurrency and validating transactions.</li>
+                                <li><span class="font-semibold">Why Mining?</span> Mining ensures network security and transaction verification while controlling the release of new coins.</li>
+                                <li><span class="font-semibold">Proof-of-Work (PoW):</span> Miners solve complex puzzles to validate transactions.</li>
+                                <li><span class="font-semibold">Why PoW?</span> It prevents fraud by making it extremely expensive and computationally difficult to manipulate the network.</li>
+                                <li><span class="font-semibold">Proof-of-Stake (PoS):</span> Validators are chosen based on the amount of cryptocurrency they stake.</li>
+                                <li><span class="font-semibold">Why PoS?</span> It provides network security while being more energy-efficient and scalable than PoW.</li>
+                                <li><span class="font-semibold">Gas Fees:</span> Transaction fees paid to process transactions on the network.</li>
+                            </ul>
+                        </div>
+                        <div class="mt-3 bg-pink-50 p-3 rounded-lg border border-pink-200">
+                            <p class="font-semibold text-pink-700">Now explain it in pop terms:</p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li><span class="font-semibold">Mining & Why:</span> Like producing a hit song - it takes serious studio time and equipment (computing power) to create new tracks (coins)! We need this process to make sure every new song (transaction) is legit and maintain the value of the hits! 🎵</li>
+                                <li><span class="font-semibold">PoW & Why:</span> Think of it like American Idol's intense audition process - contestants (miners) must prove their dedication through hard work. This makes it super expensive to cheat, just like how it's impossible to fake your way through a live performance! 🎤</li>
+                                <li><span class="font-semibold">PoS & Why:</span> Like The Voice's coaching system - the more successful and invested you are (the more coins you stake), the more influence you have! It's like choosing experienced artists as judges instead of making them sing every time - way more efficient! 🌟</li>
+                                <li><span class="font-semibold">Gas Fees:</span> Like Ticketmaster service charges - these fees keep the show running and reward the people maintaining the venue (network)! 💸</li>
+                            </ul>
+                        </div>
+                        <div class="mt-3 bg-white p-3 rounded-lg border border-pink-200">
+                            <p class="font-semibold text-pink-700">Try it yourself:</p>
+                            <div class="space-y-2">
+                                <p class="text-gray-700"><span class="font-semibold">Real Example:</span> Visit etherscan.io and look at the current gas fees for Ethereum transactions. Watch how they change throughout the day - just like how concert ticket prices fluctuate based on demand!</p>
+                                <p class="text-gray-700"><span class="font-semibold">Quick Exercise:</span> Compare the energy impact: Calculate that one Bitcoin PoW transaction uses about 2,264.93 kWh (enough to power your home theater for 2.5 months!), while Ethereum's new PoS system uses 99.9% less energy (like switching from a stadium concert to an unplugged session). This shows why many networks are moving to PoS! 🌱</p>
+                                <p class="text-gray-700"><span class="font-semibold">Understanding Why:</span> Just like how the music industry needs both record labels (centralized) and independent artists (decentralized), crypto needs robust systems to maintain security and trust. Mining and consensus mechanisms are like the music industry's quality control - they ensure every "release" (transaction) is authentic and valuable! 🎸</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Crypto 102 Section -->
+                <div id="crypto102" class="tab-content" style="display: none;">
+                    <div class="mb-6 bg-gradient-to-r from-pink-200 to-purple-200 p-6 rounded-lg border border-pink-300 flex items-center shadow-md">
+                        <div class="mr-4">
+                            <i data-lucide="rocket" class="text-pink-500" style="width: 50px; height: 50px;"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-pink-700">Crypto 102: Level Up Your Knowledge</h3>
+                            <p>Ready to dive deeper? Like Beyoncé evolving from Destiny's Child to Renaissance, let's explore more advanced crypto concepts! 💫</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-6 bg-gradient-to-r from-pink-50 to-pink-100 p-4 rounded-lg border border-pink-200">
+                        <h3 class="font-bold flex items-center text-pink-700">
+                            <i data-lucide="code" class="mr-2" style="width: 20px; height: 20px;"></i>
+                            Smart Contracts & dApps: The New Hit Makers
+                        </h3>
+                        <div class="mt-3 bg-white p-3 rounded-lg border border-pink-200">
+                            <p class="font-semibold text-gray-800">Technical Definitions:</p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li><span class="font-semibold">Smart Contracts:</span> Self-executing contracts with terms directly written into code.</li>
+                                <li><span class="font-semibold">dApps:</span> Decentralized applications that run on blockchain networks.</li>
+                                <li><span class="font-semibold">Tokens:</span> Digital assets created and managed by smart contracts.</li>
+                            </ul>
+                        </div>
+                        <div class="mt-3 bg-pink-50 p-3 rounded-lg border border-pink-200">
+                            <p class="font-semibold text-pink-700">Now explain it in pop terms:</p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li><span class="font-semibold">Smart Contracts:</span> Like Ariana Grande's recording contract, but automated and transparent - when certain conditions are met (like hitting streaming milestones), payments happen automatically! 📝</li>
+                                <li><span class="font-semibold">dApps:</span> Like decentralized Spotify, where artists can release music directly to fans without a middleman! 🎧</li>
+                                <li><span class="font-semibold">Tokens:</span> Like digital fan club memberships that give you special access and perks to your favorite artist's content! 🎟️</li>
+                            </ul>
+                        </div>
+                        <div class="mt-3 bg-white p-3 rounded-lg border border-pink-200">
+                            <p class="font-semibold text-pink-700">Try it yourself:</p>
+                            <div class="space-y-2">
+                                <p class="text-gray-700"><span class="font-semibold">Real Example:</span> Visit Uniswap (a popular dApp) and explore how it automatically swaps tokens using smart contracts - it's like a digital DJ automatically mixing tracks based on the crowd's energy! No human intermediary needed.</p>
+                                <p class="text-gray-700"><span class="font-semibold">Quick Exercise:</span> Create a simple smart contract on Remix IDE (remix.ethereum.org) that automatically sends a token when someone pays 0.1 ETH - like creating an automated ticket booth that instantly delivers digital concert passes! 🎫</p>
+                                <p class="text-gray-700"><span class="font-semibold">Bonus Challenge:</span> Find a popular NFT project on OpenSea and look at its smart contract on Etherscan. See how it manages token distribution - just like how streaming platforms distribute royalties to artists! 🎨</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6 bg-gradient-to-r from-pink-50 to-pink-100 p-4 rounded-lg border border-pink-200">
+                        <h3 class="font-bold flex items-center text-pink-700">
+                            <i data-lucide="trending-up" class="mr-2" style="width: 20px; height: 20px;"></i>
+                            Market Dynamics: The Charts & Stats
+                        </h3>
+                        <div class="mt-3 bg-white p-3 rounded-lg border border-pink-200">
+                            <p class="font-semibold text-gray-800">Technical Definitions:</p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li><span class="font-semibold">Market Capitalization:</span> Total value of a cryptocurrency, calculated by price × circulating supply.</li>
+                                <li><span class="font-semibold">Volatility:</span> The tendency for prices to fluctuate significantly.</li>
+                                <li><span class="font-semibold">Trading Pairs:</span> Two assets that can be traded for each other (e.g., BTC/USD).</li>
+                                <li><span class="font-semibold">Liquidity:</span> How easily an asset can be bought or sold without affecting its price.</li>
+                            </ul>
+                        </div>
+                        <div class="mt-3 bg-pink-50 p-3 rounded-lg border border-pink-200">
+                            <p class="font-semibold text-pink-700">Now explain it in pop terms:</p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li><span class="font-semibold">Market Cap:</span> Like an artist's total streaming numbers across all platforms - it shows their overall impact and reach in the industry! 📊</li>
+                                <li><span class="font-semibold">Volatility:</span> Like Taylor's chart positions going up and down with each new release - sometimes you're #1, sometimes you're cooling off! 📈</li>
+                                <li><span class="font-semibold">Trading Pairs:</span> Like remix collaborations - you're trading one artist's style for another to create something new! 🎵</li>
+                                <li><span class="font-semibold">Liquidity:</span> Like having enough fans ready to buy concert tickets at any price - the more fans, the easier it is to sell tickets without crashing the price! 🎟️</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mb-6 bg-gradient-to-r from-pink-50 to-pink-100 p-4 rounded-lg border border-pink-200">
+                        <h3 class="font-bold flex items-center text-pink-700">
+                            <i data-lucide="git-fork" class="mr-2" style="width: 20px; height: 20px;"></i>
+                            Exchanges & Forks: The Venues & Remixes
+                        </h3>
+                        <div class="mt-3 bg-white p-3 rounded-lg border border-pink-200">
+                            <p class="font-semibold text-gray-800">Technical Definitions:</p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li><span class="font-semibold">Centralized Exchanges (CEX):</span> Traditional platforms operated by a central authority.</li>
+                                <li><span class="font-semibold">Decentralized Exchanges (DEX):</span> Platforms that operate without intermediaries.</li>
+                                <li><span class="font-semibold">Hard Fork:</span> A major protocol change creating a new blockchain.</li>
+                                <li><span class="font-semibold">Soft Fork:</span> A backward-compatible protocol update.</li>
+                            </ul>
+                        </div>
+                        <div class="mt-3 bg-pink-50 p-3 rounded-lg border border-pink-200">
+                            <p class="font-semibold text-pink-700">Now explain it in pop terms:</p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li><span class="font-semibold">CEX:</span> Like major record labels with strict rules and security - everything goes through their approval process! 🏢</li>
+                                <li><span class="font-semibold">DEX:</span> Like underground music venues where artists and fans trade directly - no middleman needed! 🎸</li>
+                                <li><span class="font-semibold">Hard Fork:</span> Like when Miley Cyrus completely changed from Hannah Montana to Bangerz - a totally new direction that creates two different paths! 🎭</li>
+                                <li><span class="font-semibold">Soft Fork:</span> Like when Ariana Grande added R&B influences to her pop sound - an upgrade that still works with her original style! 🎤</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Uniswap Section -->
+                <div id="uniswap" class="tab-content" style="display: none;">
+                    <div class="mb-6 bg-gradient-to-r from-pink-200 to-purple-200 p-6 rounded-lg border border-pink-300 flex items-center shadow-md">
+                        <div class="mr-4">
+                            <i data-lucide="coins" class="text-pink-500" style="width: 50px; height: 50px;"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-pink-700">The Uniswap Phenomenon</h3>
+                            <p>Just as pop stars like Megan Thee Stallion and Billie Eilish revolutionized the music industry, Uniswap changed how we trade crypto forever!</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6 bg-gradient-to-r from-pink-50 to-pink-100 p-4 rounded-lg border border-pink-200">
+                        <h3 class="font-bold flex items-center text-pink-700">
+                            <i data-lucide="sparkles" class="mr-2" style="width: 20px; height: 20px;"></i>
+                            The Uniswap Origin Story
+                        </h3>
+                        <div class="mt-3 bg-white p-3 rounded-lg border border-pink-200">
+                            <p class="font-semibold text-gray-800">Technical Definition:</p>
+                            <p class="text-gray-700">Uniswap is a decentralized exchange (DEX) protocol built on the Ethereum blockchain. It uses an automated market maker (AMM) system instead of traditional order books, allowing users to trade cryptocurrencies directly from their wallets without intermediaries. The protocol is governed by UNI token holders and has become one of the most widely used DEXs in the DeFi ecosystem.</p>
+                        </div>
+                        <div class="mt-3 pop-explanation p-3 rounded-lg">
+                            <p class="font-semibold text-white">Now explain it in pop terms:</p>
+                            <p class="text-white">Uniswap's journey is like Ariana Grande's rise from a Nickelodeon star to global pop icon. Created by Hayden Adams in 2018, Uniswap started as a simple experiment based on an idea proposed by Ethereum founder Vitalik Buterin.</p>
+                        </div>
+                        <div class="mt-3 bg-white p-3 rounded-lg border border-pink-200">
+                            <p class="font-semibold text-gray-800">Uniswap Timeline:</p>
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li><span class="font-semibold">November 2018:</span> Uniswap V1 launches with a $100k grant from the Ethereum Foundation</li>
+                                <li><span class="font-semibold">May 2020:</span> Uniswap V2 introduces direct ERC-20 to ERC-20 pairs</li>
+                                <li><span class="font-semibold">September 2020:</span> UNI token launch with a retroactive airdrop to all past users</li>
+                                <li><span class="font-semibold">May 2021:</span> Uniswap V3 debuts with concentrated liquidity</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6 bg-gradient-to-r from-pink-50 to-pink-100 p-4 rounded-lg border border-pink-200">
+                        <h3 class="font-bold flex items-center text-pink-700">
+                            <i data-lucide="coins" class="mr-2" style="width: 20px; height: 20px;"></i>
+                            Automated Market Maker: The Taylor Swift Revolution
+                        </h3>
+                        <div class="mt-3 technical-definition p-3 rounded-lg">
+                            <p class="font-semibold text-gray-800">Technical Definition:</p>
+                            <p class="text-gray-700">An Automated Market Maker (AMM) is a type of decentralized exchange protocol that relies on mathematical formulas to price assets. Instead of using order books, AMMs use liquidity pools where users can deposit pairs of tokens. The price of assets is determined by a constant product formula (x * y = k), where x and y represent the quantities of two tokens in a pool, and k is a constant. This system allows for continuous trading without the need for matching buyers and sellers.</p>
+                        </div>
+                        <div class="mt-3 pop-explanation p-3 rounded-lg">
+                            <p class="font-semibold text-white">Now explain it in pop terms:</p>
+                            <p class="text-white">Uniswap's AMM model is like how Charli XCX revolutionized the music industry by taking control of her career and embracing hyperpop. Traditional exchanges use order books where buyers and sellers match up directly, but Uniswap uses liquidity pools and a mathematical formula to set prices automatically.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trading Terms Section -->
+                <div id="trading" class="tab-content" style="display: none;">
+                    <div class="mb-6 bg-gradient-to-r from-pink-200 to-purple-200 p-6 rounded-lg border border-pink-300 flex items-center shadow-md">
+                        <div class="mr-4">
+                            <i data-lucide="trending-up" class="text-pink-500" style="width: 50px; height: 50px;"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-pink-700">Crypto Trading: The Pop Charts of Finance</h3>
+                            <p>Just like how pop songs from artists like Chappell Roan and Gracie Abrams climb and fall on the charts, crypto prices move up and down. Let's learn the language of trading!</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-6 bg-gradient-to-r from-pink-50 to-pink-100 p-4 rounded-lg border border-pink-200">
+                        <h3 class="font-bold flex items-center text-pink-700">
+                            <i data-lucide="chart-line" class="mr-2" style="width: 20px; height: 20px;"></i>
+                            Market Terms: The Billboard Hot 100 of Crypto
+                        </h3>
+                        <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-white p-4 rounded-lg border border-pink-200">
+                                <h4 class="font-bold text-pink-700">Bull Market</h4>
+                                <div class="text-sm text-gray-600">
+                                    <span class="font-semibold">Technical Definition:</span> A market condition where prices are rising or expected to rise, typically characterized by increased buying activity and positive investor sentiment.
+                                </div>
+                                <div class="mt-2 bg-pink-50 p-2 rounded-lg border border-pink-200">
+                                    <span class="font-semibold text-pink-700">Now explain it in pop terms:</span>
+                                    <p class="text-sm">Like when Sabrina Carpenter's album drops and all her songs shoot to the top of the charts. A period when prices are rising and optimism is high.</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-pink-200">
+                                <h4 class="font-bold text-pink-700">Bear Market</h4>
+                                <div class="text-sm text-gray-600">
+                                    <span class="font-semibold">Technical Definition:</span> A market condition where prices are falling or expected to fall, typically characterized by increased selling activity and negative investor sentiment.
+                                </div>
+                                <div class="mt-2 bg-pink-50 p-2 rounded-lg border border-pink-200">
+                                    <span class="font-semibold text-pink-700">Now explain it in pop terms:</span>
+                                    <p class="text-sm">Like when a pop star's album underperforms. A period when prices are falling and pessimism prevails.</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-pink-200">
+                                <h4 class="font-bold text-pink-700">Market Cap</h4>
+                                <div class="text-sm text-gray-600">
+                                    <span class="font-semibold">Technical Definition:</span> The total market value of a cryptocurrency, calculated by multiplying the current price by the total number of coins in circulation.
+                                </div>
+                                <div class="mt-2 bg-pink-50 p-2 rounded-lg border border-pink-200">
+                                    <span class="font-semibold text-pink-700">Now explain it in pop terms:</span>
+                                    <p class="text-sm">Like Doechii's total streams across all platforms. The total value of all coins in circulation (price × circulating supply).</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-pink-200">
+                                <h4 class="font-bold text-pink-700">Volume</h4>
+                                <div class="text-sm text-gray-600">
+                                    <span class="font-semibold">Technical Definition:</span> The total amount of cryptocurrency traded within a specific time period, indicating the level of market activity and liquidity.
+                                </div>
+                                <div class="mt-2 bg-pink-50 p-2 rounded-lg border border-pink-200">
+                                    <span class="font-semibold text-pink-700">Now explain it in pop terms:</span>
+                                    <p class="text-sm">Like the number of streams Megan Thee Stallion's songs get. The total amount of trading activity in a given period.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6 bg-gradient-to-r from-pink-50 to-pink-100 p-4 rounded-lg border border-pink-200">
+                        <h3 class="font-bold flex items-center text-pink-700">
+                            <i data-lucide="activity" class="mr-2" style="width: 20px; height: 20px;"></i>
+                            Trading Strategies: The Producer's Playbook
+                        </h3>
+                        <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-white p-4 rounded-lg border border-pink-200">
+                                <h4 class="font-bold text-pink-700">HODL</h4>
+                                <div class="text-sm text-gray-600">
+                                    <span class="font-semibold">Technical Definition:</span> A long-term investment strategy where investors hold onto their cryptocurrency regardless of market volatility, based on the belief in the long-term value of the asset.
+                                </div>
+                                <div class="mt-2 bg-pink-50 p-2 rounded-lg border border-pink-200">
+                                    <span class="font-semibold text-pink-700">Now explain it in pop terms:</span>
+                                    <p class="text-sm">Like when Billie Eilish holds onto her masters. Holding onto your crypto despite market fluctuations.</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-pink-200">
+                                <h4 class="font-bold text-pink-700">DCA (Dollar-Cost Averaging)</h4>
+                                <div class="text-sm text-gray-600">
+                                    <span class="font-semibold">Technical Definition:</span> An investment strategy where an investor divides the total amount to be invested across periodic purchases of a target asset to reduce the impact of volatility on the overall purchase.
+                                </div>
+                                <div class="mt-2 bg-pink-50 p-2 rounded-lg border border-pink-200">
+                                    <span class="font-semibold text-pink-700">Now explain it in pop terms:</span>
+                                    <p class="text-sm">Like releasing singles gradually instead of dropping a whole album at once. Investing fixed amounts at regular intervals regardless of price.</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-pink-200">
+                                <h4 class="font-bold text-pink-700">FOMO (Fear of Missing Out)</h4>
+                                <div class="text-sm text-gray-600">
+                                    <span class="font-semibold">Technical Definition:</span> A psychological phenomenon where investors make impulsive decisions to buy assets due to the fear of missing out on potential gains, often leading to buying at peak prices.
+                                </div>
+                                <div class="mt-2 bg-pink-50 p-2 rounded-lg border border-pink-200">
+                                    <span class="font-semibold text-pink-700">Now explain it in pop terms:</span>
+                                    <p class="text-sm">Like rushing to buy concert tickets when Ariana Grande announces a tour. Making impulsive investment decisions based on market hype.</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-pink-200">
+                                <h4 class="font-bold text-pink-700">DYOR (Do Your Own Research)</h4>
+                                <div class="text-sm text-gray-600">
+                                    <span class="font-semibold">Technical Definition:</span> A principle emphasizing the importance of conducting thorough research and analysis before making investment decisions, rather than relying solely on others' advice or market hype.
+                                </div>
+                                <div class="mt-2 bg-pink-50 p-2 rounded-lg border border-pink-200">
+                                    <span class="font-semibold text-pink-700">Now explain it in pop terms:</span>
+                                    <p class="text-sm">Like reading reviews before buying concert tickets. Making informed decisions based on thorough research.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6 bg-gradient-to-r from-pink-50 to-pink-100 p-4 rounded-lg border border-pink-200">
+                        <h3 class="font-bold flex items-center text-pink-700">
+                            <i data-lucide="shield" class="mr-2" style="width: 20px; height: 20px;"></i>
+                            Risk Management: The Tour Manager's Guide
+                        </h3>
+                        <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-white p-4 rounded-lg border border-pink-200">
+                                <h4 class="font-bold text-pink-700">Stop-Loss</h4>
+                                <div class="text-sm text-gray-600">
+                                    <span class="font-semibold">Technical Definition:</span> A risk management tool that automatically sells an asset when it reaches a predetermined price level to limit potential losses.
+                                </div>
+                                <div class="mt-2 bg-pink-50 p-2 rounded-lg border border-pink-200">
+                                    <span class="font-semibold text-pink-700">Now explain it in pop terms:</span>
+                                    <p class="text-sm">Like having a backup plan for a Charli XCX concert. An order to sell if the price drops to a certain level to limit losses.</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-pink-200">
+                                <h4 class="font-bold text-pink-700">Take-Profit</h4>
+                                <div class="text-sm text-gray-600">
+                                    <span class="font-semibold">Technical Definition:</span> A risk management tool that automatically sells an asset when it reaches a predetermined price level to secure profits.
+                                </div>
+                                <div class="mt-2 bg-pink-50 p-2 rounded-lg border border-pink-200">
+                                    <span class="font-semibold text-pink-700">Now explain it in pop terms:</span>
+                                    <p class="text-sm">Like knowing when to end a Chappell Roan concert. An order to sell when the price reaches a certain profit target.</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-pink-200">
+                                <h4 class="font-bold text-pink-700">Position Sizing</h4>
+                                <div class="text-sm text-gray-600">
+                                    <span class="font-semibold">Technical Definition:</span> The process of determining the appropriate amount of capital to allocate to a particular investment based on risk tolerance and portfolio size.
+                                </div>
+                                <div class="mt-2 bg-pink-50 p-2 rounded-lg border border-pink-200">
+                                    <span class="font-semibold text-pink-700">Now explain it in pop terms:</span>
+                                    <p class="text-sm">Like planning a Gracie Abrams tour budget. Determining how much to invest in a particular asset based on your total portfolio.</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-pink-200">
+                                <h4 class="font-bold text-pink-700">Diversification</h4>
+                                <div class="text-sm text-gray-600">
+                                    <span class="font-semibold">Technical Definition:</span> An investment strategy that involves spreading investments across different assets, sectors, or strategies to reduce overall portfolio risk.
+                                </div>
+                                <div class="mt-2 bg-pink-50 p-2 rounded-lg border border-pink-200">
+                                    <span class="font-semibold text-pink-700">Now explain it in pop terms:</span>
+                                    <p class="text-sm">Like having multiple hit songs from different genres. Spreading investments across different assets to reduce risk.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6 bg-gradient-to-r from-pink-50 to-pink-100 p-4 rounded-lg border border-pink-200">
+                        <h3 class="font-bold flex items-center text-pink-700">
+                            <i data-lucide="zap" class="mr-2" style="width: 20px; height: 20px;"></i>
+                            DeFi Trading Terms: The Remix Edition
+                        </h3>
+                        <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-white p-4 rounded-lg border border-pink-200">
+                                <h4 class="font-bold text-pink-700">Liquidity Pool</h4>
+                                <div class="text-sm text-gray-600">
+                                    <span class="font-semibold">Technical Definition:</span> A collection of funds locked in a smart contract that provides liquidity for trading on decentralized exchanges, enabling users to swap between different tokens.
+                                </div>
+                                <div class="mt-2 bg-pink-50 p-2 rounded-lg border border-pink-200">
+                                    <span class="font-semibold text-pink-700">Now explain it in pop terms:</span>
+                                    <p class="text-sm">Like a concert venue's capacity for a Doechii show. A pool of tokens locked in a smart contract that enables trading on DEXs.</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-pink-200">
+                                <h4 class="font-bold text-pink-700">Impermanent Loss</h4>
+                                <div class="text-sm text-gray-600">
+                                    <span class="font-semibold">Technical Definition:</span> A temporary loss of funds experienced by liquidity providers in automated market maker (AMM) pools when the price of deposited tokens changes compared to when they were deposited.
+                                </div>
+                                <div class="mt-2 bg-pink-50 p-2 rounded-lg border border-pink-200">
+                                    <span class="font-semibold text-pink-700">Now explain it in pop terms:</span>
+                                    <p class="text-sm">Like when a Megan Thee Stallion concert gets rescheduled. Temporary loss experienced by liquidity providers due to price changes.</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-pink-200">
+                                <h4 class="font-bold text-pink-700">APY (Annual Percentage Yield)</h4>
+                                <div class="text-sm text-gray-600">
+                                    <span class="font-semibold">Technical Definition:</span> The real rate of return earned on an investment, taking into account the effect of compounding interest. In DeFi, it represents the annualized return on investment from providing liquidity or staking tokens.
+                                </div>
+                                <div class="mt-2 bg-pink-50 p-2 rounded-lg border border-pink-200">
+                                    <span class="font-semibold text-pink-700">Now explain it in pop terms:</span>
+                                    <p class="text-sm">Like an artist's yearly earnings from streams and tours. The real rate of return earned on an investment, including compound interest.</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-pink-200">
+                                <h4 class="font-bold text-pink-700">Gas Fees</h4>
+                                <div class="text-sm text-gray-600">
+                                    <span class="font-semibold">Technical Definition:</span> The fee required to successfully conduct a transaction or execute a contract on the Ethereum blockchain, paid in ETH to compensate miners for the computational resources used.
+                                </div>
+                                <div class="mt-2 bg-pink-50 p-2 rounded-lg border border-pink-200">
+                                    <span class="font-semibold text-pink-700">Now explain it in pop terms:</span>
+                                    <p class="text-sm">Like ticket processing fees for a Billie Eilish concert. The cost required to perform a transaction on the Ethereum network.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="crypto103" class="tab-content" style="display: none;">
+                    <div class="mb-6 bg-gradient-to-r from-purple-200 to-indigo-200 p-6 rounded-lg border border-purple-300 flex items-center shadow-md">
+                        <div class="mr-4">
+                            <i data-lucide="zap" class="text-purple-500" style="width: 50px; height: 50px;"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-purple-700">Crypto 103: Advanced Concepts</h3>
+                            <p>Like Taylor Swift's Reputation era, we're going deeper and bolder! Let's explore the cutting-edge of crypto. 🌟</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-6 bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-lg border border-purple-200">
+                        <h3 class="font-bold flex items-center text-purple-700">
+                            <i data-lucide="arrow-up-right" class="mr-2" style="width: 20px; height: 20px;"></i>
+                            DeFi (Decentralized Finance): The Ultimate Collab
+                        </h3>
+                        <div class="mt-3 bg-white p-3 rounded-lg border border-purple-200">
+                            <p class="font-semibold text-gray-800">Technical Definitions:</p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li><span class="font-semibold">Lending Protocols:</span> Platforms where users can lend and borrow crypto assets.</li>
+                                <li><span class="font-semibold">Yield Farming:</span> Strategy of providing liquidity to earn maximum returns.</li>
+                                <li><span class="font-semibold">Liquidity Pools:</span> Smart contract-based pools of tokens used for trading.</li>
+                                <li><span class="font-semibold">Automated Market Makers (AMM):</span> Smart contracts that create markets for any token pair.</li>
+                            </ul>
+                        </div>
+                        <div class="mt-3 bg-purple-50 p-3 rounded-lg border border-purple-200">
+                            <p class="font-semibold text-purple-700">Now explain it in pop terms:</p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li><span class="font-semibold">Lending Protocols:</span> Like Spotify giving exposure to indie artists - you lend your platform (assets) and earn streaming revenue (interest)! 🎵</li>
+                                <li><span class="font-semibold">Yield Farming:</span> Like artists doing multiple collabs and tours at once to maximize their exposure and earnings! 💫</li>
+                                <li><span class="font-semibold">Liquidity Pools:</span> Like fan funding platforms where everyone contributes to support their favorite artists, creating a shared pool of resources! 🎟️</li>
+                                <li><span class="font-semibold">AMM:</span> Like an AI DJ that automatically mixes tracks based on the crowd's energy - no human intermediary needed! 🎧</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mb-6 bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-lg border border-purple-200">
+                        <h3 class="font-bold flex items-center text-purple-700">
+                            <i data-lucide="badge-dollar-sign" class="mr-2" style="width: 20px; height: 20px;"></i>
+                            NFTs & Digital Ownership: The VIP Experience
+                        </h3>
+                        <div class="mt-3 bg-white p-3 rounded-lg border border-purple-200">
+                            <p class="font-semibold text-gray-800">Technical Definitions:</p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li><span class="font-semibold">NFT Standards:</span> Technical specifications like ERC-721 and ERC-1155 that define how NFTs work.</li>
+                                <li><span class="font-semibold">Metadata:</span> Additional information stored with NFTs describing their properties.</li>
+                                <li><span class="font-semibold">Minting:</span> The process of creating new NFTs on the blockchain.</li>
+                                <li><span class="font-semibold">Royalties:</span> Automatic payments to creators when their NFTs are resold.</li>
+                            </ul>
+                        </div>
+                        <div class="mt-3 bg-purple-50 p-3 rounded-lg border border-purple-200">
+                            <p class="font-semibold text-purple-700">Now explain it in pop terms:</p>
+                            <p class="text-gray-700">NFTs are like VIP backstage passes that can't be copied! Just like how each Taylor Swift Eras Tour ticket is unique, each NFT has special properties. Minting NFTs is like pressing limited edition vinyl records, and royalties are like artists getting paid every time their song gets played!</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-6 bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-lg border border-purple-200">
+                        <h3 class="font-bold flex items-center text-purple-700">
+                            <i data-lucide="globe" class="mr-2" style="width: 20px; height: 20px;"></i>
+                            Web3 & The Future: The Next Big Tour
+                        </h3>
+                        <div class="mt-3 bg-white p-3 rounded-lg border border-purple-200">
+                            <p class="font-semibold text-gray-800">Technical Definitions:</p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li><span class="font-semibold">Web3:</span> The decentralized internet built on blockchain technology.</li>
+                                <li><span class="font-semibold">DAOs:</span> Decentralized Autonomous Organizations governed by token holders.</li>
+                                <li><span class="font-semibold">Identity & Privacy:</span> Self-sovereign identity and privacy-preserving technologies.</li>
+                                <li><span class="font-semibold">Interoperability:</span> The ability for different blockchains to communicate and share data.</li>
+                            </ul>
+                        </div>
+                        <div class="mt-3 bg-purple-50 p-3 rounded-lg border border-purple-200">
+                            <p class="font-semibold text-purple-700">Now explain it in pop terms:</p>
+                            <p class="text-gray-700">Web3 is like the next evolution of the music industry! DAOs are like fan clubs where members vote on everything, from merch designs to tour locations. And just like how artists can perform at different venues, interoperability lets different blockchains work together to create an amazing show!</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-6 bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-lg border border-purple-200">
+                        <h3 class="font-bold flex items-center text-purple-700">
+                            <i data-lucide="arrow-up-right" class="mr-2" style="width: 20px; height: 20px;"></i>
+                            DeFi Protocols: The Music Industry Revolution
+                        </h3>
+                        <div class="mt-3 bg-white p-3 rounded-lg border border-purple-200">
+                            <p class="font-semibold text-gray-800">What are Protocols & Why Do We Need Them?</p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li><span class="font-semibold">Definition:</span> Protocols are sets of rules that govern how different parts of a system interact and operate.</li>
+                                <li><span class="font-semibold">Why Protocols?</span> They ensure consistency, security, and fairness in transactions, just like how music industry standards ensure artists get paid and music gets distributed properly.</li>
+                                <li><span class="font-semibold">Types of DeFi Protocols:</span></li>
+                                <ul class="list-circle pl-5 space-y-2">
+                                    <li><span class="font-semibold">Lending Protocols (like Aave):</span> Enable peer-to-peer lending without traditional banks.</li>
+                                    <li><span class="font-semibold">Exchange Protocols (like Uniswap):</span> Allow direct token swaps without centralized exchanges.</li>
+                                    <li><span class="font-semibold">Stablecoin Protocols (like DAI):</span> Maintain stable cryptocurrency values.</li>
+                                    <li><span class="font-semibold">Yield Protocols:</span> Optimize returns across different platforms.</li>
+                                </ul>
+                            </ul>
+                        </div>
+                        <div class="mt-3 bg-purple-50 p-3 rounded-lg border border-purple-200">
+                            <p class="font-semibold text-purple-700">Now explain it in pop terms:</p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li><span class="font-semibold">Protocols = Music Industry Standards:</span> Just like how streaming platforms need standard formats (MP3, WAV) to play music, DeFi needs protocols to handle transactions! 🎵</li>
+                                <li><span class="font-semibold">Why We Need Them:</span> Think of protocols like the music industry's rulebook - without them, it would be chaos! Just as PROs (Performance Rights Organizations) ensure artists get paid for radio plays, DeFi protocols ensure everyone's transactions are fair and secure! 📜</li>
+                                <li><span class="font-semibold">Different Types of Protocols:</span></li>
+                                <ul class="list-circle pl-5 space-y-2">
+                                    <li><span class="font-semibold">Lending Protocols:</span> Like SoundCloud giving indie artists a platform - you can lend/borrow without a major label (bank)! 🎤</li>
+                                    <li><span class="font-semibold">Exchange Protocols:</span> Like Spotify's algorithm matching listeners with new music - automatically connecting buyers and sellers! 🔄</li>
+                                    <li><span class="font-semibold">Stablecoin Protocols:</span> Like having a guaranteed minimum streaming rate - keeping values steady no matter what! 💰</li>
+                                    <li><span class="font-semibold">Yield Protocols:</span> Like a smart agent maximizing an artist's income across touring, merch, and streaming! 📈</li>
+                                </ul>
+                            </ul>
+                        </div>
+                        <div class="mt-3 bg-white p-3 rounded-lg border border-purple-200">
+                            <p class="font-semibold text-purple-700">Protocol Deep Dive:</p>
+                            <div class="space-y-2">
+                                <p class="text-gray-700"><span class="font-semibold">Security & Trust:</span> Just like how Billboard has strict rules for counting streams and sales, DeFi protocols have strict security measures to protect users' assets. Without these protocols, it would be like trying to run a music industry without copyright laws - chaos! 🛡️</p>
+                                <p class="text-gray-700"><span class="font-semibold">Innovation:</span> New protocols are like new music genres being created. Just as trap music revolutionized hip-hop, new DeFi protocols are revolutionizing finance by creating entirely new ways to earn and invest! 🚀</p>
+                                <p class="text-gray-700"><span class="font-semibold">Interoperability:</span> Different protocols working together is like artists from different genres collaborating. When Taylor Swift features on a rap track or Ed Sheeran works with K-pop stars, magic happens - same with DeFi protocols combining to create new financial opportunities! 🤝</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center text-sm text-pink-700 mt-8">
+        <p>Created for crypto beginners who love pop music</p>
+        <p class="mt-2">Remember: Just like chart positions change weekly, crypto prices are volatile. Never invest more than you can afford to lose!</p>
+    </footer>
+
+    <!-- Pop Girl AI Assistant -->
+    <div class="pop-girl-chat" id="popGirlChat" style="display: none;">
+        <div class="chat-header">
+            <span class="emoji-icon">🎵</span>
+            <h3>Pop Girl AI Assistant</h3>
+            <div class="chat-close" onclick="toggleChat()">
+                <i data-lucide="x" style="color: white; width: 16px; height: 16px;"></i>
+            </div>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message assistant">
+                Hey bestie! 💖 I'm here to explain crypto using pop culture references! Ask me anything or try one of these questions:
+                <div class="mt-3">
+                    <div class="example-question" onclick="askQuestion('What is Bitcoin?')">What is Bitcoin?</div>
+                    <div class="example-question" onclick="askQuestion('Explain NFTs in pop terms')">Explain NFTs in pop terms</div>
+                    <div class="example-question" onclick="askQuestion('What is DeFi?')">What is DeFi?</div>
+                    <div class="example-question" onclick="askQuestion('How do I start in crypto?')">How do I start in crypto?</div>
+                    <div class="example-question" onclick="askQuestion('What are gas fees?')">What are gas fees?</div>
+                    <div class="example-question" onclick="askQuestion('What is a blockchain?')">What is a blockchain?</div>
+                </div>
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" placeholder="Ask me anything about crypto..." id="chatInput">
+            <button onclick="sendMessage()">
+                <i data-lucide="send"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="chat-toggle" onclick="toggleChat()">
+        explain<br>in pop<br>terms<br>please<br>✨
+    </div>
+
+    <button class="return-to-launch" onclick="returnToLaunch()" style="display: none;">
+        🎵 Return to Launch
+    </button>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Create floating background texts
+        const cryptoTerms = [
+            "explain nfts in pop terms",
+            "what is a hook?",
+            "how do i start in crypto?",
+            "what's the tea on web3?",
+            "eli5 defi pls",
+            "gas fees are wild rn",
+            "best crypto memes?",
+            "how to spot a rug pull?",
+            "what's your fav nft?",
+            "crypto slang 101",
+            "how to stay safe?",
+            "best wallet for noobs?"
+        ];
+
+        function createFloatingTexts() {
+            const container = document.getElementById('landingPage');
+            const usedPositions = new Set();
+            const headerRect = document.querySelector('.landing-header').getBoundingClientRect();
+            
+            // Clear any existing floating texts
+            const existingTexts = container.querySelectorAll('.floating-text');
+            existingTexts.forEach(text => text.remove());
+            
+            cryptoTerms.forEach((term, index) => {
+                const text = document.createElement('div');
+                text.className = 'floating-text';
+                text.textContent = term;
+                
+                let x, y;
+                let attempts = 0;
+                const maxAttempts = 50;
+                
+                do {
+                    x = Math.random() * (window.innerWidth - 300);
+                    y = Math.random() * (window.innerHeight - 200);
+                    attempts++;
+                    
+                    if (attempts >= maxAttempts) {
+                        return;
+                    }
+                } while (isOverlapping(x, y, usedPositions) || isInHeaderArea(x, y, headerRect));
+                
+                usedPositions.add(`${Math.floor(x/100)}_${Math.floor(y/100)}`);
+                
+                text.style.left = `${x}px`;
+                text.style.top = `${y}px`;
+                
+                const delay = Math.random() * 15;
+                const duration = 15 + Math.random() * 10;
+                text.style.animationDelay = `${delay}s`;
+                text.style.animationDuration = `${duration}s`;
+                
+                container.appendChild(text);
+            });
+        }
+
+        function isOverlapping(x, y, usedPositions) {
+            // Check if the position is too close to any existing text
+            const gridX = Math.floor(x/100);
+            const gridY = Math.floor(y/100);
+            
+            // Check surrounding grid cells
+            for (let dx = -1; dx <= 1; dx++) {
+                for (let dy = -1; dy <= 1; dy++) {
+                    if (usedPositions.has(`${gridX + dx}_${gridY + dy}`)) {
+                        return true;
+                    }
+                }
+            }
+            
+            return false;
+        }
+
+        // Call the function when the page loads and on window resize
+        document.addEventListener('DOMContentLoaded', function() {
+            createFloatingTexts();
+            const subtitle = document.querySelector('.landing-subtitle');
+            subtitle.style.width = '0';
+            setTimeout(() => {
+                subtitle.style.width = '100%';
+            }, 100);
+        });
+
+        window.addEventListener('resize', createFloatingTexts);
+
+        function expandSite() {
+            const landingPage = document.querySelector('.landing-page');
+            const mainContent = document.querySelector('.main-content');
+            const chatToggle = document.querySelector('.chat-toggle');
+            const returnButton = document.querySelector('.return-to-launch');
+            
+            // Add fade-out class to landing page
+            landingPage.classList.add('fade-out');
+            
+            // After fade-out animation completes, show main content
+            setTimeout(() => {
+                landingPage.style.display = 'none';
+                mainContent.style.display = 'block';
+                
+                // Show return button
+                returnButton.style.display = 'flex';
+                setTimeout(() => returnButton.classList.add('visible'), 100);
+                
+                // Trigger reflow
+                void mainContent.offsetWidth;
+                
+                // Add fade-in class to main content
+                mainContent.classList.add('fade-in');
+                
+                // Show the chat toggle button
+                chatToggle.classList.add('visible');
+                
+                // Recreate sparkles for new content
+                createPageSparkles();
+            }, 800);
+        }
+
+        function returnToLaunch() {
+            const landingPage = document.querySelector('.landing-page');
+            const mainContent = document.querySelector('.main-content');
+            const chatToggle = document.querySelector('.chat-toggle');
+            const returnButton = document.querySelector('.return-to-launch');
+            
+            // Hide return button
+            returnButton.classList.remove('visible');
+            setTimeout(() => returnButton.style.display = 'none', 300);
+            
+            // Hide chat toggle
+            chatToggle.classList.remove('visible');
+            
+            // Show landing page
+            landingPage.style.display = 'flex';
+            landingPage.classList.remove('fade-out');
+            
+            // Hide main content
+            mainContent.classList.remove('fade-in');
+            mainContent.style.display = 'none';
+            
+            // Recreate particle effects
+            createFloatingTexts();
+        }
+
+        // Add tab switching functionality
+        function switchTab(tabId) {
+            // Add bubble pop effect to the clicked button
+            const clickedButton = document.querySelector(`[onclick="switchTab('${tabId}')"]`);
+            clickedButton.style.animation = 'none';
+            void clickedButton.offsetWidth; // Trigger reflow
+            clickedButton.style.animation = 'bubble-pop 0.3s ease-out';
+            
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.style.display = 'none';
+            });
+            
+            // Show selected tab content
+            const selectedTab = document.getElementById(tabId);
+            if (selectedTab) {
+                selectedTab.style.display = 'block';
+            }
+            
+            // Update section title
+            const sectionTitle = document.getElementById('section-title');
+            const titles = {
+                'intro': 'Welcome to Crypto Pop!',
+                'crypto101': 'Crypto 101: The Basics',
+                'crypto102': 'Crypto 102: Advanced Concepts',
+                'crypto103': 'Crypto 103: Advanced Concepts',
+                'uniswap': 'The Uniswap Phenomenon'
+            };
+            sectionTitle.textContent = titles[tabId] || 'Welcome to Crypto Pop!';
+        }
+
+        // Initialize first tab as active
+        document.addEventListener('DOMContentLoaded', function() {
+            switchTab('intro');
+        });
+
+        // Add event listener for Enter key in chat input
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Function to send message
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                // Add user message to chat
+                addMessage(message, 'user');
+                
+                // Clear input
+                input.value = '';
+                
+                // Canned responses for example questions
+                const cannedResponses = {
+                    'What is Bitcoin?': 'Think of Bitcoin like digital gold, but way more fun! 🎵 It\'s like the "Single Ladies" of crypto - everyone wants a piece, and it\'s always in demand. Just like Beyoncé\'s hit song, when you own Bitcoin, you let everyone know you\'re independent and in control of your financial future! 💃',
+                    'Explain NFTs in pop terms': 'NFTs are like concert tickets to the digital world! 🎫 Just like how Taylor Swift\'s Eras Tour tickets are unique and prove you were there, NFTs prove you own a unique digital item. They\'re the VIP passes of the internet - no two are exactly alike! ✨',
+                    'What is DeFi?': 'DeFi is like the Spotify of finance! 🎵 Instead of needing a bank (like needing iTunes to buy music), you can do everything directly on platforms like Uniswap (like streaming any song instantly). It\'s financial freedom at your fingertips, just like having your entire music library in your pocket! 🎧',
+                    'How do I start in crypto?': 'Starting in crypto is like learning TikTok dances! 💃 Start with the basics by connecting your wallet to Uniswap, do your research (watch those tutorials), and never swap more than you\'re willing to lose (just like you wouldn\'t try a backflip on your first day!). Take it step by step, and soon you\'ll be crypto-fluent! 🌟',
+                    'What are gas fees?': 'Gas fees are like Uber surge pricing for the blockchain! 🚗 When Uniswap is busy (like rush hour), fees go up. When it\'s quiet (like 3 AM), fees are lower. It\'s all about timing your swaps, just like choosing the best time to order your ride! ⏰',
+                    'What is a blockchain?': 'A blockchain is like a never-ending group chat where everyone has a copy! 💬 Think of it like a Twitter thread where each tweet is linked to the one before it, and everyone can see the entire conversation. When you trade on Uniswap, every swap becomes part of this permanent record - transparent, secure, and impossible to delete! 😅'
+                };
+
+                // Check if the message matches any canned response
+                const response = cannedResponses[message] || 'I\'m here to help you understand crypto through pop culture! Ask me anything about Bitcoin, NFTs, DeFi, or other crypto topics, and I\'ll explain it using fun references you\'ll love! 💖';
+
+                // Simulate typing delay
+                setTimeout(() => {
+                    addMessage(response, 'assistant');
+                }, 1000);
+            }
+        }
+
+        // Function to add message to chat
+        function addMessage(text, sender) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${sender}-message`;
+            messageDiv.innerHTML = `
+                <div class="message-content">
+                    ${text}
+                </div>
+            `;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function toggleChat() {
+            const chat = document.getElementById('popGirlChat');
+            const toggleButton = document.querySelector('.chat-toggle');
+            
+            chat.style.display = chat.style.display === 'none' ? 'block' : 'none';
+            toggleButton.style.display = chat.style.display === 'none' ? 'flex' : 'none';
+            
+            // When opening chat, focus the input
+            if (chat.style.display === 'block') {
+                document.getElementById('chatInput').focus();
+            }
+        }
+
+        // Add typing animation to subtitle
+        document.addEventListener('DOMContentLoaded', function() {
+            const subtitle = document.querySelector('.landing-subtitle');
+            subtitle.style.width = '0';
+            setTimeout(() => {
+                subtitle.style.width = '100%';
+            }, 100);
+        });
+
+        // Add cycling terms functionality
+        const subjects = {
+            'pop': ['Pop', 'Sports', 'Films', 'Games', 'Pets', 'Food', 'Tech', 'Style', 'Travel', 'Art', 'Science', 'History', 'Biz', 'Health', 'Music', 'Books', 'Nature', 'Space'],
+            'sports': ['Sports', 'NBA', 'Soccer', 'Olympics', 'ESPN', 'Athlete'],
+            'movies': ['Films', 'Hollywood', 'Marvel', 'Netflix', 'Cinema', 'Director'],
+            'gaming': ['Games', 'Console', 'Streamer', 'Esports', 'MMO', 'RPG'],
+            'animals': ['Pets', 'Wildlife', 'Ocean', 'Jungle', 'Safari', 'Nature'],
+            'food': ['Food', 'Cooking', 'Restaurant', 'Chef', 'Recipe', 'Cuisine']
+        };
+
+        let currentSubject = 'pop';
+        let currentTermIndex = 0;
+        const cyclingTerm = document.querySelector('.cycling-term');
+
+        function setSubject(subject) {
+            currentSubject = subject;
+            currentTermIndex = 0;
+            cycleTerms();
+        }
+
+        function cycleTerms() {
+            currentTermIndex = (currentTermIndex + 1) % subjects[currentSubject].length;
+            cyclingTerm.style.animation = 'none';
+            void cyclingTerm.offsetWidth; // Trigger reflow
+            cyclingTerm.style.animation = 'term-change 0.5s ease-out';
+            
+            setTimeout(() => {
+                const newTerm = subjects[currentSubject][currentTermIndex];
+                cyclingTerm.textContent = newTerm;
+                
+                // Calculate optimal font size
+                const baseSize = 3.6; // Base font size in rem
+                const textLength = newTerm.length;
+                let fontSize;
+                
+                if (textLength <= 4) {
+                    fontSize = baseSize; // Full size for short words
+                } else if (textLength <= 6) {
+                    fontSize = baseSize * 0.9; // 90% size for medium words
+                } else if (textLength <= 8) {
+                    fontSize = baseSize * 0.8; // 80% size for longer words
+                } else {
+                    fontSize = baseSize * 0.7; // 70% size for very long words
+                }
+                
+                cyclingTerm.style.setProperty('--dynamic-font-size', `${fontSize}rem`);
+                
+                // Fine-tune if still overflowing
+                const container = cyclingTerm.getBoundingClientRect();
+                const text = cyclingTerm.getBoundingClientRect();
+                
+                if (text.width > container.width) {
+                    const ratio = container.width / text.width * 0.95; // 95% of container width
+                    fontSize *= ratio;
+                    cyclingTerm.style.setProperty('--dynamic-font-size', `${fontSize}rem`);
+                }
+            }, 250);
+        }
+
+        // Initialize cycling terms
+        document.addEventListener('DOMContentLoaded', function() {
+            setInterval(cycleTerms, 3000);
+        });
+
+        // Add this function to handle example questions
+        function askQuestion(question) {
+            const input = document.getElementById('chatInput');
+            input.value = question;
+            sendMessage();
+        }
+
+        function createPageSparkles() {
+            const container = document.getElementById('sparkleContainer');
+            const sparkleCount = 12; // Slightly reduced count
+            
+            // Clear existing sparkles
+            container.innerHTML = '';
+            
+            for (let i = 0; i < sparkleCount; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'page-sparkle';
+                sparkle.textContent = '✨';
+                
+                // Random positions and sizes
+                const size = 0.4 + Math.random() * 1.2; // Slightly smaller sizes
+                const startX = Math.random() * window.innerWidth;
+                const startY = Math.random() * window.innerHeight;
+                
+                // Create random movement path with smaller range
+                const moveRange = 150; // Reduced movement range
+                const midX = startX + (Math.random() - 0.5) * moveRange;
+                const midY = startY + (Math.random() - 0.5) * moveRange;
+                const endX = midX + (Math.random() - 0.5) * moveRange;
+                const endY = midY + (Math.random() - 0.5) * moveRange;
+                const finalX = endX + (Math.random() - 0.5) * moveRange;
+                const finalY = endY + (Math.random() - 0.5) * moveRange;
+                
+                // Set custom properties
+                sparkle.style.setProperty('--size', `${size}rem`);
+                sparkle.style.setProperty('--duration', `${5 + Math.random() * 5}s`); // Slightly slower
+                sparkle.style.setProperty('--delay', `${Math.random() * 5}s`);
+                sparkle.style.setProperty('--startX', `${startX}px`);
+                sparkle.style.setProperty('--startY', `${startY}px`);
+                sparkle.style.setProperty('--midX', `${midX}px`);
+                sparkle.style.setProperty('--midY', `${midY}px`);
+                sparkle.style.setProperty('--endX', `${endX}px`);
+                sparkle.style.setProperty('--endY', `${endY}px`);
+                sparkle.style.setProperty('--finalX', `${finalX}px`);
+                sparkle.style.setProperty('--finalY', `${finalY}px`);
+                
+                container.appendChild(sparkle);
+            }
+        }
+
+        // Initialize sparkles when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            createPageSparkles();
+            // Recreate sparkles periodically
+            setInterval(createPageSparkles, 10000); // Slightly longer interval
+        });
+
+        // Recreate sparkles on window resize
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+            // Debounce the resize event
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(createPageSparkles, 250);
+        });
+
+        // Add this at the beginning of your script section
+        function createLaunchSparkles() {
+            const container = document.getElementById('launchSparkleContainer');
+            const sparkleCount = 15; // Slightly more sparkles for the launch page
+            
+            // Clear existing sparkles
+            container.innerHTML = '';
+            
+            for (let i = 0; i < sparkleCount; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'launch-sparkle';
+                sparkle.textContent = '✨';
+                
+                // Random size between 0.4rem and 1.6rem
+                const size = 0.4 + Math.random() * 1.2;
+                
+                // Random positions within viewport
+                const startX = Math.random() * window.innerWidth;
+                const startY = Math.random() * window.innerHeight;
+                
+                // Calculate movement range (150px in any direction)
+                const range = 150;
+                const midX = startX + (Math.random() * range - range/2);
+                const midY = startY + (Math.random() * range - range/2);
+                const endX = midX + (Math.random() * range - range/2);
+                const endY = midY + (Math.random() * range - range/2);
+                const finalX = endX + (Math.random() * range - range/2);
+                const finalY = endY + (Math.random() * range - range/2);
+                
+                sparkle.style.setProperty('--size', `${size}rem`);
+                sparkle.style.setProperty('--duration', `${5 + Math.random() * 5}s`); // 5-10s duration
+                sparkle.style.setProperty('--delay', `${Math.random() * 5}s`);
+                sparkle.style.setProperty('--startX', `${startX}px`);
+                sparkle.style.setProperty('--startY', `${startY}px`);
+                sparkle.style.setProperty('--midX', `${midX}px`);
+                sparkle.style.setProperty('--midY', `${midY}px`);
+                sparkle.style.setProperty('--endX', `${endX}px`);
+                sparkle.style.setProperty('--endY', `${endY}px`);
+                sparkle.style.setProperty('--finalX', `${finalX}px`);
+                sparkle.style.setProperty('--finalY', `${finalY}px`);
+                
+                container.appendChild(sparkle);
+            }
+        }
+
+        // Initialize launch sparkles when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            createLaunchSparkles();
+            // Recreate sparkles periodically
+            setInterval(createLaunchSparkles, 10000);
+        });
+
+        // Recreate sparkles on window resize with debounce
+        let launchResizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(launchResizeTimeout);
+            launchResizeTimeout = setTimeout(createLaunchSparkles, 250);
+        });
+    </script>
+</body>
+</html> 
